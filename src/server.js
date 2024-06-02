@@ -3,6 +3,8 @@ import pino from 'pino-http';
 import cors from 'cors';
 import { env } from './utils/env.js';
 import { getAllContacts, getAllContactsById, } from './services/contacts.js';
+import mongoose from 'mongoose';
+import { throwNotFoundError } from './utils/error.js';
 
 
 const PORT = Number(env('PORT', '3000'));
@@ -35,11 +37,13 @@ export const setupServe = () => {
     app.get('/contacts/:contactId', async (req, res, next) => {
         try {
             const { contactId } = req.params;
+            if (!mongoose.Types.ObjectId.isValid(contactId)) {
+                throwNotFoundError();
+            }
             const contact = await getAllContactsById(contactId);
+
             if (!contact) {
-                const error = new Error('Not Found');
-                error.status = 404;
-                throw error;
+                throwNotFoundError();
             }
             res.status(200).json({
                 status: 200,
@@ -53,7 +57,6 @@ export const setupServe = () => {
 
 
     app.use('*', (req, res, next) => {
-        console.log('object')
         res.status(404).json({
             message: 'Not found',
         });
