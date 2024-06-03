@@ -31,5 +31,10 @@ const contactSchema = new Schema({
     { timestamps: true, versionKey: false },
 );
 
+//this is middleware
+contactSchema.post("save", (err, data, next) => {
+    err.status = 400;
+    next();
+});
 
 export const ContactsCollection = model('contacts', contactSchema);

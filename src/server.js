@@ -2,9 +2,9 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { env } from './utils/env.js';
-import { getAllContacts, getAllContactsById, } from './services/contacts.js';
-import mongoose from 'mongoose';
-import { throwNotFoundError } from './utils/error.js';
+import router from './routers/contacts.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 
 const PORT = Number(env('PORT', '3000'));
@@ -23,52 +23,19 @@ export const setupServe = () => {
         }),
     );
 
-    app.get('/contacts', async (req, res) => {
-        console.log('yes');
-        const contacts = await getAllContacts();
-
-        res.status(200).json({
-            status: 200,
-            message: "Successfully found contacts!",
-            data: contacts,
-        });
-    });
-
-    app.get('/contacts/:contactId', async (req, res, next) => {
-        try {
-            const { contactId } = req.params;
-            if (!mongoose.Types.ObjectId.isValid(contactId)) {
-                throwNotFoundError();
-            }
-            const contact = await getAllContactsById(contactId);
-
-            if (!contact) {
-                throwNotFoundError();
-            }
-            res.status(200).json({
-                status: 200,
-                message: `Successfully found contact with id ${contactId}!`,
-                data: contact,
-            });
-        } catch (error) {
-            next(error);
-        }
-    });
+    app.use(router);
 
 
-    app.use('*', (req, res, next) => {
-        res.status(404).json({
-            message: 'Not found',
-        });
-    });
+    app.use('*', notFoundHandler);
 
-    app.use((err, req, res, next) => {
-        const { status = 500, message = 'Something went wrong' } = err;
-        res.status(status).json({
-            message,
-            error: err.message,
-        });
-    });
+    app.use(errorHandler);
+    // app.use((err, req, res, next) => {
+    //     const { status = 500, message = 'Something went wrong' } = err;
+    //     res.status(status).json({
+    //         message,
+    //         error: err.message,
+    //     });
+    // });
 
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
