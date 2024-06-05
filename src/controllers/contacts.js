@@ -2,9 +2,15 @@ import mongoose from "mongoose";
 import { createContact, deleteContact, getAllContacts, getAllContactsById, updateContact } from "../services/contacts.js";
 import { throwNotFoundError } from "../utils/error.js";
 import createHttpError from 'http-errors';
+import { parsePaginationParams } from "../utils/parsePaginationParams.js";
+
 
 export const getContactsController = async (req, res) => {
-    const contacts = await getAllContacts();
+    const { page, perPage } = parsePaginationParams(req.query);
+    const contacts = await getAllContacts({
+        page,
+        perPage,
+    });
 
     res.status(200).json({
         status: 200,
