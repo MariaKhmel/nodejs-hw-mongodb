@@ -25,8 +25,6 @@ const contactSchema = new Schema({
         enum: ['home', 'personal', 'work'],
         default: 'personal',
     },
-    createdAt: String,
-    updatedAt: String,
 },
     { timestamps: true, versionKey: false },
 );
