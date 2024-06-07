@@ -12,12 +12,11 @@ export const createContactSchema = Joi.object({
         'any.required': 'PhoneNumber is required',
     }),
     email: Joi.string().email(),
-    isFavourite: Joi.boolean().required().messages({
-        'any.required': 'isFavourite is required',
+    isFavourite: Joi.boolean().messages({
+        'base': 'isFavourite should be a boolean',
     }),
-    contactType: Joi.string().valid('home', 'personal', 'work').required().messages({
+    contactType: Joi.string().valid('home', 'personal', 'work').messages({
         'valid': 'Only "home", "personal", "work" are possible options.',
-        'any.required': 'ContactType is required',
     }),
 });
 
