@@ -5,12 +5,13 @@ import { env } from './utils/env.js';
 import router from './routers/contacts.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
-
+import { authRouter } from './routers/auth.js';
 
 const PORT = Number(env('PORT', '3000'));
 
 export const setupServe = () => {
     const app = express();
+
 
     app.use(express.json());
     app.use(cors());
@@ -22,8 +23,8 @@ export const setupServe = () => {
             },
         }),
     );
-
-    app.use(router);
+    app.use('/auth', authRouter);
+    app.use('/contacts', router);
 
 
     app.use('*', notFoundHandler);
