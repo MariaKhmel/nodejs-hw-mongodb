@@ -10,13 +10,14 @@ export const getContactsController = async (req, res) => {
     const { page, perPage } = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query);
     const filter = parseFilterParams(req.query);
-
+    const { _id: owner } = req.user;
     const contacts = await getAllContacts({
         page,
         perPage,
         sortBy,
         sortOrder,
         filter,
+        owner
     });
 
     res.status(200).json({
@@ -45,7 +46,8 @@ export const getContactsByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res, next) => {
-    const contact = await createContact(req.body);
+    const { _id: owner } = await req.user;
+    const contact = await createContact({ ...req.body, owner });
     res.status(201).json({
         status: 201,
         message: "Successfully created a contact!",
@@ -79,4 +81,12 @@ export const deleteContactController = async (req, res, next) => {
     }
     res.status(204).send();
 
+};
+
+export const getCurrent = async (req, res) => {
+    const { email, name } = req.user;
+    res.json({
+        email,
+        name
+    });
 };
