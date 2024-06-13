@@ -7,8 +7,8 @@ import { authenticate } from '../middlewares/authenticate.js';
 
 
 export const authRouter = express.Router();
-authRouter.use(authenticate);
+
 authRouter.post('/register', validateBody(registerShema), ctrlWrapper(registerUserController));
 authRouter.post('/login', validateBody(loginShema), ctrlWrapper(loginUserController));
-authRouter.post('/logout', ctrlWrapper(logoutUserController));
-authRouter.post('/refresh', ctrlWrapper(refreshUserSessionController));
+authRouter.post('/logout', authenticate, ctrlWrapper(logoutUserController));
+authRouter.post('/refresh', authenticate, ctrlWrapper(refreshUserSessionController));

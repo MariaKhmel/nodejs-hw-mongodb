@@ -23,7 +23,7 @@ export const setupServe = () => {
             },
         }),
     );
-
+    app.use(cookieParser());
     app.use(router);
 
 
@@ -31,7 +31,7 @@ export const setupServe = () => {
 
     app.use(errorHandler);
 
-    app.use(cookieParser());
+
 
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
