@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 import { SessionsCollection } from '../db/models/session.js';
 import { FIFTEEN_MINUTES, ONE_DAY } from "../constants/constants.js";
-
+import gravatar from 'gravatar';
 
 export const registerUser = async (payload) => {
     const { email, password } = payload;
@@ -13,7 +13,13 @@ export const registerUser = async (payload) => {
         throw createHttpError(409, "Email in use.");
     }
     const encryptedPassword = await bcrypt.hash(password, 10);
-    return await UsersCollection.create({ ...payload, password: encryptedPassword });
+    const avatarUrl = gravatar.url(email);
+    return await UsersCollection.create(
+        {
+            ...payload,
+            password: encryptedPassword,
+            avatarUrl
+        });
 };
 
 export const loginUser = async (payload) => {

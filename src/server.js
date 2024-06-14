@@ -24,6 +24,9 @@ export const setupServe = () => {
         }),
     );
     app.use(cookieParser());
+
+
+    app.use(express.static('public'));
     app.use(router);
 
 

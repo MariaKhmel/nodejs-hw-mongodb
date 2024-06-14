@@ -1,5 +1,12 @@
 import { ONE_DAY } from '../constants/constants.js';
 import { loginUser, logoutUser, refreshUsersSession, registerUser } from '../services/auth.js';
+import gravatar from 'gravatar';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import { nanoid } from 'nanoid';
+import { UsersCollection } from '../db/models/user.js';
+
+const avatarDir = path.join(process.cwd(), 'src', 'public', 'avatars');
 
 export const registerUserController = async (req, res) => {
     const user = await registerUser(req.body);
@@ -72,4 +79,21 @@ export const refreshUserSessionController = async (req, res) => {
             accessToken: session.accessToken,
         },
     });
+};
+
+
+export const updateAvatar = async (req, res) => {
+    const { _id } = req.user;
+    const { path: tempUpload, originalname } = req.file;
+    const filename = `${_id}${originalname}`;
+    const resultUpload = path.join(avatarDir, filename);
+    await fs.rename(tempUpload, resultUpload);
+
+    const avatarUrl = path.join('avatars', filename);
+    await UsersCollection.findByIdAndUpdate(_id, { avatarUrl });
+
+    res.json({
+        avatarUrl,
+    });
+
 };
