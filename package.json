@@ -6,9 +6,10 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.js",
-    "start": "node ./src/index.js",
+    "start": "node src/index.html",
     "dev": "nodemon src/index.js",
-    "app": "nodemon src/app.js"
+    "app": "nodemon src/app.js",
+    "cb": "nodemon src/controllers/auth.js"
   },
   "keywords": [],
   "author": "",

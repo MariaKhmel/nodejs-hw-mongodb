@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="form">
+      <input type="file" name="image" multiple />
+      <button type="submit">Send</button>
+    </form>
+    <script>
+      const form = document.getElementById('form');
+      form.addEventListener('sumbit', (e) => {
+        e.preventDefault();
+        const { image } = form.elements;
+        const data = new FormData();
+        data.append('image', image.files[0]);
+      });
+    </script>
+  </body>
+</html>

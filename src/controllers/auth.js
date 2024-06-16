@@ -83,17 +83,26 @@ export const refreshUserSessionController = async (req, res) => {
 
 
 export const updateAvatar = async (req, res) => {
-    const { _id } = req.user;
-    const { path: tempUpload, originalname } = req.file;
-    const filename = `${_id}${originalname}`;
-    const resultUpload = path.join(avatarDir, filename);
-    await fs.rename(tempUpload, resultUpload);
-
-    const avatarUrl = path.join('avatars', filename);
-    await UsersCollection.findByIdAndUpdate(_id, { avatarUrl });
-
-    res.json({
-        avatarUrl,
-    });
+    try {
+        const { path: tempUpload, originalname } = req.file;
+        const resultUpload = path.join(avatarDir, originalname);
+        await fs.rename(tempUpload, resultUpload);
+    } catch (error) {
+        await fs.unlink(tempUpload);
+    }
 
 };
+
+
+// const { _id } = req.user;
+// const { path: tempUpload, originalname } = req.file;
+// const filename = `${_id}${originalname}`;
+// const resultUpload = path.join(avatarDir, filename);
+// await fs.rename(tempUpload, resultUpload);
+
+// const avatarUrl = path.join('avatars', filename);
+// await UsersCollection.findByIdAndUpdate(_id, { avatarUrl });
+
+// res.json({
+//     avatarUrl,
+// });
