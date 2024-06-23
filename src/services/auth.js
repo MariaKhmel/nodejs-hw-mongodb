@@ -7,14 +7,17 @@ import { FIFTEEN_MINUTES, ONE_DAY } from "../constants/constants.js";
 
 
 export const registerUser = async (payload) => {
-    const { email, password } = payload;
+    const { name, email, password, createdAt, updatedAt, _id } = payload;
     const user = await UsersCollection.findOne({ email });
     if (user) {
         throw createHttpError(409, "Email in use.");
     }
     const encryptedPassword = await bcrypt.hash(password, 10);
-    return await UsersCollection.create({ ...payload, password: encryptedPassword });
+    await UsersCollection.create({ ...payload, password: encryptedPassword });
+
+    return { email, name, createdAt, updatedAt, _id };
 };
+
 
 export const loginUser = async (payload) => {
     const { email, password } = payload;

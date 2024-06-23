@@ -35,7 +35,12 @@ export const getAllContacts = async ({ page = 1, perPage = 10, sortOrder = SORT_
 };
 
 export const getAllContactsById = async (contactId) => {
-    const contact = await ContactsCollection.findById(contactId);
+    const contact = await ContactsCollection.findOne({
+        "_id":
+            contactId
+    });
+    // const contact = await ContactsCollection.findById(contactId);
+
     return contact;
 };
 
