@@ -18,7 +18,7 @@ const userSchema = new Schema({
         required: true,
     },
 
-}, { versionKey: false, timestamps: true })
+}, { versionKey: false, timestamps: true });
 
 // // middleware
 // userSchema.post('save', (err, data, next) => {
