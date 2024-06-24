@@ -34,13 +34,9 @@ export const getAllContacts = async ({ page = 1, perPage = 10, sortOrder = SORT_
     };
 };
 
-export const getAllContactsById = async (contactId) => {
-    const contact = await ContactsCollection.findOne({
-        "_id":
-            contactId
-    });
-    // const contact = await ContactsCollection.findById(contactId);
+export const getAllContactsById = async (id, userId) => {
 
+    const contact = await ContactsCollection.findOne({ _id: id });
     return contact;
 };
 
