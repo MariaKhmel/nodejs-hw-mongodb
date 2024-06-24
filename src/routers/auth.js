@@ -2,8 +2,9 @@ import express from 'express';
 import { loginShema, registerShema } from '../validation/user.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { loginUserController, logoutUserController, refreshUserSessionController, registerUserController } from '../controllers/auth.js';
+import { loginUserController, logoutUserController, refreshUserSessionController, registerUserController, requestResetEmailController } from '../controllers/auth.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { requestResetEmailSchema } from '../validation/auth.js';
 
 
 export const authRouter = express.Router();
@@ -12,3 +13,4 @@ authRouter.post('/register', validateBody(registerShema), ctrlWrapper(registerUs
 authRouter.post('/login', validateBody(loginShema), ctrlWrapper(loginUserController));
 authRouter.post('/logout', authenticate, ctrlWrapper(logoutUserController));
 authRouter.post('/refresh', authenticate, ctrlWrapper(refreshUserSessionController));
+authRouter.post('/send-reset-email', validateBody(requestResetEmailSchema), ctrlWrapper(requestResetEmailController));

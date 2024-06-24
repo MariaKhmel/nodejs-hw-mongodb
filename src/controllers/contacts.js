@@ -29,8 +29,6 @@ export const getContactsController = async (req, res) => {
 export const getContactsByIdController = async (req, res, next) => {
     const { contactId } = req.params;
     const userId = req.user._id;
-    console.log(userId);
-    console.log(contactId);
     if (!mongoose.Types.ObjectId.isValid(contactId)) {
         throwNotFoundError();
     }
