@@ -79,6 +79,8 @@ export const refreshUserSessionController = async (req, res) => {
 
 export const requestResetEmailController = async (req, res) => {
     await requestResetToken(req.body.email);
+    // "Failed to send the email, please try again later."
+
     res.json({
         message: 'Reset password email has been successfully sent.',
         status: 200,
@@ -88,7 +90,9 @@ export const requestResetEmailController = async (req, res) => {
 
 
 export const resetPasswordController = async (req, res) => {
-    await resetPassword(req.body);
+    const { refreshToken, sessionId } = req.cookies;
+    await resetPassword(req.body, refreshToken, sessionId);
+
     res.json({
         message: 'Password has been successfully reset.',
         status: 200,
