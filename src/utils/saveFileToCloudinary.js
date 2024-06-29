@@ -11,10 +11,15 @@ cloudinary.v2.config({
 
 
 export const saveFileToCloudinary = async (file) => {
-    console.log('file.path');
-    console.log(file);
-    const response = await cloudinary.v2.uploader.upload(file.path);
-    console.log('after response');
-    console.log(response);
-    return response.secure_url;
+
+    try {
+        const response = await cloudinary.v2.uploader.upload(file.path);
+        return response.secure_url;
+    } catch (error) {
+        console.log(error);
+    }
+    // const response = await cloudinary.v2.uploader.upload(file.path);
+    // console.log('after response');
+    // console.log(response);
+
 };
