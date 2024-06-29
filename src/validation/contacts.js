@@ -18,6 +18,7 @@ export const createContactSchema = Joi.object({
     contactType: Joi.string().valid('home', 'personal', 'work').messages({
         'valid': 'Only "home", "personal", "work" are possible options.',
     }),
+    photo: Joi.string(),
 });
 
 export const updateContactSchema = Joi.object({

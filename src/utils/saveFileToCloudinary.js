@@ -18,8 +18,4 @@ export const saveFileToCloudinary = async (file) => {
     } catch (error) {
         console.log(error);
     }
-    // const response = await cloudinary.v2.uploader.upload(file.path);
-    // console.log('after response');
-    // console.log(response);
-
 };

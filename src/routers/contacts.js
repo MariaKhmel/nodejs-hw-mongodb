@@ -13,6 +13,6 @@ contactsRouter.use(authenticate);
 contactsRouter.get('/', ctrlWrapper(getContactsController));
 contactsRouter.get('/:contactId', ctrlWrapper(getContactsByIdController));
 contactsRouter.patch('/:contactId', upload.single('photo'), validateBody(updateContactSchema), ctrlWrapper(patchContactController));
-contactsRouter.post('/', validateBody(createContactSchema), ctrlWrapper(createContactController));
+contactsRouter.post('/', upload.single('photo'), validateBody(createContactSchema), ctrlWrapper(createContactController));
 contactsRouter.delete('/:contactId', ctrlWrapper(deleteContactController));
 
