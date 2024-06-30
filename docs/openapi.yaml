@@ -17,6 +17,9 @@ servers:
   - url: #посилання на задеплоєний сайт
   # <https://example.com/api/v1>
 paths:
+  /students:
+    post:
+      $ref: ../swagger/paths/Contacts/post.yaml
   /contacts/{id}:
     get:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
