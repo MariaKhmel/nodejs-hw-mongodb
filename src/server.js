@@ -18,8 +18,7 @@ export const setupServe = () => {
 
     app.use(express.json());
     app.use(cors());
-    app.use('/uploads', express.static(UPLOAD_DIR));
-    app.use('/api-docs', swaggerDocs());
+
     app.use(
         pino({
             transport: {
@@ -27,7 +26,10 @@ export const setupServe = () => {
             },
         }),
     );
+
     app.use(cookieParser());
+    app.use('/uploads', express.static(UPLOAD_DIR));
+    app.use('/api-docs', swaggerDocs());
     app.use(router);
 
 
