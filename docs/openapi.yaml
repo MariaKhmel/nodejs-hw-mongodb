@@ -14,19 +14,20 @@ tags:
     description: Auth operations.
 servers:
   - url: <http://localhost:3000>
-  - url: #посилання на задеплоєний сайт
-  # <https://example.com/api/v1>
+  - url: <https://localhost:3000/api-docs>
 paths:
   /contacts:
     get:
       $ref: ../swagger/paths/contacts/get.yaml
     post:
       $ref: ../swagger/paths/contacts/post.yaml
-  /contacts/{id}:
+  /contacts/{contactId}:
     get:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
     delete:
       $ref: ../swagger/paths/contacts/{id}/delete.yaml
+    patch:
+      $ref: ../swagger/paths/contacts/{id}/patch.yaml
 components:
   securitySchemes:
     bearerAuth:
